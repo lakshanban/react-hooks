@@ -1,50 +1,30 @@
-import React, {useState} from "react";
-
-function Todo({todo,index}){
-
-    return (<div className='todo'>
-
-        <h4>{index}+{todo.text}</h4>
-        <h4> {todo.completed}</h4>
-
-
-    </div>)
-
-}
-
+import React, {Component} from 'react';
+import Posts from "./components/posts";
+import Postform from "./components/postform";
+import {useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
+import {decrement, increment, signin} from "./actions";
 
 
 function App(){
 
-    const [todos,setTodo]= useState([
-        {
-            text:'Create a project twith react hooks',
-            completed: false
-        },
-        {
-            text:'do coding ',
-            completed: false
-        },
-        {
-            text:'runt the project',
-            completed: false
-        }
-    ]);
+    const count= useSelector((state)=>state.counter);
+    const isLogged= useSelector((state)=>state.isLogged);
+    const dispatch= useDispatch();
 
 
-    return (<div className='app'>
+    return <div className='app'>
+        <h1>Counter:{count}</h1>
 
-        {todos.map((todo,index)=>(
-            <Todo todo={todo} index={index} key={index} />
+        <button onClick={()=>dispatch(increment(5))}>+</button>
+        <button onClick={()=>dispatch(decrement())}>-</button>
 
-        ))}
+        <button onClick={()=>dispatch(signin())}>sign IN</button>
 
+        {isLogged? <h4>Sensible data shouldnt see this</h4>: ''}
 
-    </div>)
+    </div>
 
 
 }
-
-
-
 export default App;
